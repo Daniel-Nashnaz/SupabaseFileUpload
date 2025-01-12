@@ -1,4 +1,4 @@
-# Supabase File Upload System
+# Supabase File Upload System And Auth With Google
 
 A simple React application that demonstrates file upload functionality using Supabase Storage. This system allows users to upload files (images and PDFs) and get public URLs for the uploaded files.
 
