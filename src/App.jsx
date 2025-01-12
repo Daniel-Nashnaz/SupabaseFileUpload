@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 
-const supabaseUrl = "https://monvmttknpnunzqetvke.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vbnZtdHRrbnBudW56cWV0dmtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA0NjMyMzMsImV4cCI6MjA0NjAzOTIzM30.7uhu4O1ULn87kKg7gJvoqncaWQqrXimDAP3dSiv-V14";
+const supabaseUrl = "";
+const supabaseKey = "";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
