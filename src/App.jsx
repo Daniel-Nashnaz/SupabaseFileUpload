@@ -1,15 +1,38 @@
 import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
+import "./App.css";
 
 const supabaseUrl = "YOUR_SUPABASE_URL";
 const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+let supabase = null;
+
+if (
+  supabaseUrl &&
+  supabaseKey &&
+  supabaseUrl !== "YOUR_SUPABASE_URL" &&
+  supabaseKey !== "YOUR_SUPABASE_ANON_KEY"
+) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}
 
 function App() {
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
+
+  if (!supabase) {
+    return (
+      <div className="error-container">
+        <h1>Supabase Configuration Error</h1>
+        <p>
+          Please ensure <strong>SUPABASE_URL</strong> and <strong>SUPABASE_ANON_KEY</strong> are correctly set
+          in your environment.
+        </p>
+        <p>Update these values and reload the page to continue.</p>
+      </div>
+    );
+  }
 
   const uploadImage = async (event) => {
     try {
@@ -21,18 +44,7 @@ function App() {
         throw new Error("No file selected");
       }
 
-      console.log("Starting upload...", {
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.type,
-      });
-
       const fileName = `${Date.now()}-${file.name}`;
-
-      console.log("Uploading to Supabase...", {
-        bucket: "kosher_certificates",
-        fileName: fileName,
-      });
 
       const { data, error: uploadError } = await supabase.storage
         .from("kosher_certificates")
@@ -41,88 +53,46 @@ function App() {
           upsert: false,
         });
 
-      if (uploadError) {
-        console.error("Upload error:", uploadError);
-        throw uploadError;
-      }
+      if (uploadError) throw uploadError;
 
-      console.log("File uploaded successfully", data);
+      const { data: publicData, error: urlError } = supabase.storage
+        .from("kosher_certificates")
+        .getPublicUrl(fileName);
 
-      const {
-        data: { publicUrl },
-        error: urlError,
-      } = supabase.storage.from("kosher_certificates").getPublicUrl(fileName);
+      if (urlError) throw urlError;
 
-      if (urlError) {
-        console.error("Error fetching URL:", urlError);
-        throw urlError;
-      }
-
-      console.log("Public URL received:", publicUrl);
-      setImageUrl(publicUrl);
+      setImageUrl(publicData.publicUrl);
     } catch (error) {
-      console.error("Detailed error:", error);
       setError(error.message);
-      alert(`Error: ${error.message}`);
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
+    <div className="app-container">
       <h1>Upload Kosher Certificate</h1>
 
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          type="file"
-          accept="image/*,.pdf"
-          onChange={uploadImage}
-          disabled={uploading}
-        />
+      <div className="upload-input-container">
+        <input type="file" accept="image/*,.pdf" onChange={uploadImage} disabled={uploading} />
       </div>
 
-      {uploading && <div style={{ color: "blue" }}>Uploading file...</div>}
+      {uploading && <div className="uploading-message">Uploading file...</div>}
 
-      {error && (
-        <div style={{ color: "red", marginTop: "10px" }}>Error: {error}</div>
-      )}
+      {error && <div className="error-message">Error: {error}</div>}
 
       {imageUrl && (
-        <div style={{ marginTop: "20px" }}>
-          <div style={{ color: "green", marginBottom: "10px" }}>
-            File uploaded successfully!
-          </div>
-
+        <div className="image-preview-container">
+          <div className="success-message">File uploaded successfully!</div>
           {imageUrl.toLowerCase().endsWith(".pdf") ? (
-            <a
-              href={imageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "blue", textDecoration: "underline" }}
-            >
+            <a href={imageUrl} target="_blank" rel="noopener noreferrer" className="pdf-link">
               Click here to view the PDF file
             </a>
           ) : (
-            <img
-              src={imageUrl}
-              alt="Kosher certificate"
-              style={{ maxWidth: "100%" }}
-            />
+            <img src={imageUrl} alt="Kosher certificate" className="uploaded-image" />
           )}
 
-          <div
-            style={{
-              marginTop: "10px",
-              wordBreak: "break-all",
-              fontSize: "12px",
-              backgroundColor: "#f0f0f0",
-              padding: "10px",
-              borderRadius: "4px",
-            }}
-          >
-            URL: {imageUrl}
-          </div>
+          <div className="image-url-container">URL: {imageUrl}</div>
         </div>
       )}
     </div>
