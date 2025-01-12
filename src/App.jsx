@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import "./App.css";
 
-const supabaseUrl = "YOUR_SUPABASE_URL";
-const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
+const supabaseUrl = "";
+const supabaseKey = "";
 
 let supabase = null;
 
