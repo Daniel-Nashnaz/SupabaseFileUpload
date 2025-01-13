@@ -1,12 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
-import { useState } from "react";
+import { useState } from 'react';
+import { auth } from '../config/firebase';
+import { signOut } from 'firebase/auth';
+import { supabase } from '../config/supabase';
 
-const supabaseUrl = "";
-const supabaseKey = "";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-function App() {
+const UploadPage = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -69,9 +66,32 @@ function App() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('שגיאת התנתקות:', error);
+    }
+  };
+
   return (
     <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
-      <h1>Upload Kosher Certificate</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Upload Kosher Certificate</h1>
+        <button
+          onClick={handleLogout}
+          style={{
+            backgroundColor: "#ff4444",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            border: "none",
+            cursor: "pointer"
+          }}
+        >
+          התנתק
+        </button>
+      </div>
 
       <div style={{ marginBottom: "20px" }}>
         <input
@@ -127,6 +147,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
-export default App;
+export default UploadPage;
