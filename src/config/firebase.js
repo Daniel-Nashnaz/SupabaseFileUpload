@@ -11,7 +11,5 @@ const firebaseConfig = {
   measurementId: ""
 };
 
-// אתחול Firebase
 const app = initializeApp(firebaseConfig);
-// ייצוא האות' שנשתמש בו בקומפוננטת הלוגין
 export const auth = getAuth(app);

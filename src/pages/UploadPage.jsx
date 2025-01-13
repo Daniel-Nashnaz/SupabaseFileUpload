@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/App.jsx
 import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import "./App.css";
@@ -17,6 +18,14 @@ if (
 }
 
 function App() {
+=======
+import { useState } from 'react';
+import { auth } from '../config/firebase';
+import { signOut } from 'firebase/auth';
+import { supabase } from '../config/supabase';
+
+const UploadPage = () => {
+>>>>>>> meir-fork/email_verification:src/pages/UploadPage.jsx
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -69,9 +78,37 @@ function App() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('שגיאת התנתקות:', error);
+    }
+  };
+
   return (
+<<<<<<< HEAD:src/App.jsx
     <div className="app-container">
       <h1>Upload Kosher Certificate</h1>
+=======
+    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Upload Kosher Certificate</h1>
+        <button
+          onClick={handleLogout}
+          style={{
+            backgroundColor: "#ff4444",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            border: "none",
+            cursor: "pointer"
+          }}
+        >
+          התנתק
+        </button>
+      </div>
+>>>>>>> meir-fork/email_verification:src/pages/UploadPage.jsx
 
       <div className="upload-input-container">
         <input type="file" accept="image/*,.pdf" onChange={uploadImage} disabled={uploading} />
@@ -97,6 +134,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
-export default App;
+export default UploadPage;
