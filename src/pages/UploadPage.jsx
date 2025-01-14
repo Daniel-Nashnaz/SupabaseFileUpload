@@ -1,31 +1,9 @@
-<<<<<<< HEAD:src/App.jsx
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
-import "./App.css";
-
-const supabaseUrl = "";
-const supabaseKey = "";
-
-let supabase = null;
-
-if (
-  supabaseUrl &&
-  supabaseKey &&
-  supabaseUrl !== "YOUR_SUPABASE_URL" &&
-  supabaseKey !== "YOUR_SUPABASE_ANON_KEY"
-) {
-  supabase = createClient(supabaseUrl, supabaseKey);
-}
-
-function App() {
-=======
-import { useState } from 'react';
-import { auth } from '../config/firebase';
-import { signOut } from 'firebase/auth';
-import { supabase } from '../config/supabase';
+import { auth } from "../config/firebase";
+import { signOut } from "firebase/auth";
+import { supabase } from "../config/supabase";
 
 const UploadPage = () => {
->>>>>>> meir-fork/email_verification:src/pages/UploadPage.jsx
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -82,57 +60,61 @@ const UploadPage = () => {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error('שגיאת התנתקות:', error);
+      console.error("שגיאת התנתקות:", error);
     }
   };
 
   return (
-<<<<<<< HEAD:src/App.jsx
-    <div className="app-container">
-      <h1>Upload Kosher Certificate</h1>
-=======
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h1>Upload Kosher Certificate</h1>
-        <button
-          onClick={handleLogout}
+    <>
+      <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
+        <div
           style={{
-            backgroundColor: "#ff4444",
-            color: "white",
-            padding: "8px 16px",
-            borderRadius: "4px",
-            border: "none",
-            cursor: "pointer"
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
           }}
         >
-          התנתק
-        </button>
-      </div>
->>>>>>> meir-fork/email_verification:src/pages/UploadPage.jsx
-
-      <div className="upload-input-container">
-        <input type="file" accept="image/*,.pdf" onChange={uploadImage} disabled={uploading} />
-      </div>
-
-      {uploading && <div className="uploading-message">Uploading file...</div>}
-
-      {error && <div className="error-message">Error: {error}</div>}
-
-      {imageUrl && (
-        <div className="image-preview-container">
-          <div className="success-message">File uploaded successfully!</div>
-          {imageUrl.toLowerCase().endsWith(".pdf") ? (
-            <a href={imageUrl} target="_blank" rel="noopener noreferrer" className="pdf-link">
-              Click here to view the PDF file
-            </a>
-          ) : (
-            <img src={imageUrl} alt="Kosher certificate" className="uploaded-image" />
-          )}
-
-          <div className="image-url-container">URL: {imageUrl}</div>
+          <h1>Upload Kosher Certificate</h1>
+          <button
+            onClick={handleLogout}
+            style={{
+              backgroundColor: "#ff4444",
+              color: "white",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            התנתק
+          </button>
         </div>
-      )}
-    </div>
+
+        <div className="upload-input-container">
+          <input type="file" accept="image/*,.pdf" onChange={uploadImage} disabled={uploading} />
+        </div>
+
+        {uploading && <div className="uploading-message">Uploading file...</div>}
+
+        {error && <div className="error-message">Error: {error}</div>}
+
+        {imageUrl && (
+          <div className="image-preview-container">
+            <div className="success-message">File uploaded successfully!</div>
+            {imageUrl.toLowerCase().endsWith(".pdf") ? (
+              <a href={imageUrl} target="_blank" rel="noopener noreferrer" className="pdf-link">
+                Click here to view the PDF file
+              </a>
+            ) : (
+              <img src={imageUrl} alt="Kosher certificate" className="uploaded-image" />
+            )}
+
+            <div className="image-url-container">URL: {imageUrl}</div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

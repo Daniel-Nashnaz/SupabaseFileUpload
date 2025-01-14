@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { auth } from '../config/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import GoogleAuth from '../components/GoogleAuth';
-import UploadPage from './UploadPage';
+import { useEffect, useState } from "react";
+import { auth } from "../config/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import GoogleAuth from "../components/GoogleAuth";
+import UploadPage from "./UploadPage";
 
 const LoginPage = () => {
   const [user, setUser] = useState(null);
