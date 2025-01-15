@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { signOut } from "firebase/auth";
 import { supabase } from "../config/supabase";
 
 const UploadPage = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
-  const [fileName, setFileName] = useState("");
 
   if (!supabase) {
     return (
@@ -31,8 +30,6 @@ const UploadPage = () => {
       if (!file) {
         throw new Error("No file selected");
       }
-
-      setFileName(file.name);
 
       const fileName = `${Date.now()}-${file.name}`;
 
@@ -63,54 +60,61 @@ const UploadPage = () => {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error("שגיאת התנתקות:", error);
     }
   };
 
   return (
-    <div className="upload-page">
-      <div className="upload-header">
-        <h1>Upload Kosher Certificate</h1>
-        <button onClick={handleLogout} className="logout-button">
-          Logout
-        </button>
-      </div>
-
-      <div className="upload-container">
-        <div className="file-input-container">
-          <input
-            type="file"
-            accept="image/*,.pdf"
-            onChange={uploadImage}
-            disabled={uploading}
-            className="file-input"
-            id="file-input"
-          />
-          <label htmlFor="file-input" className="file-input-label">
-            {fileName ? fileName : "Choose a file to upload"}
-          </label>
+    <>
+      <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <h1>Upload Kosher Certificate</h1>
+          <button
+            onClick={handleLogout}
+            style={{
+              backgroundColor: "#ff4444",
+              color: "white",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            התנתק
+          </button>
         </div>
 
-        {uploading && <div className="uploading-message pulse">Uploading file...</div>}
+        <div className="upload-input-container">
+          <input type="file" accept="image/*,.pdf" onChange={uploadImage} disabled={uploading} />
+        </div>
+
+        {uploading && <div className="uploading-message">Uploading file...</div>}
 
         {error && <div className="error-message">Error: {error}</div>}
 
         {imageUrl && (
-          <div className="preview-container">
+          <div className="image-preview-container">
             <div className="success-message">File uploaded successfully!</div>
             {imageUrl.toLowerCase().endsWith(".pdf") ? (
               <a href={imageUrl} target="_blank" rel="noopener noreferrer" className="pdf-link">
                 Click here to view the PDF file
               </a>
             ) : (
-              <img src={imageUrl || "/placeholder.svg"} alt="Kosher certificate" className="uploaded-image" />
+              <img src={imageUrl} alt="Kosher certificate" className="uploaded-image" />
             )}
 
-            <div className="image-url">URL: {imageUrl}</div>
+            <div className="image-url-container">URL: {imageUrl}</div>
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
