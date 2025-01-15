@@ -4,7 +4,7 @@ A React application that demonstrates file upload functionality using Supabase S
 
 ## 🚀 Features
 
-- Google Authentication for user login
+- Google Authentication through Supabase
 - File upload to Supabase Storage
 - Support for images and PDF files
 - Real-time upload status
@@ -17,7 +17,6 @@ A React application that demonstrates file upload functionality using Supabase S
 1. Create a Supabase project
 2. Create a new bucket in Supabase Storage
 3. Get your Supabase URL and anon key
-
 
 ## 🔐 Setup Google Authentication
 
@@ -38,21 +37,14 @@ A React application that demonstrates file upload functionality using Supabase S
 3. Install dependencies: `npm install` or `yarn install`
 4. Create a `.env` file in the root directory and add the following:
 
-\`\`\`env
+```env
 VITE_SUPABASE_URL=YOUR_SUPABASE_URL
 VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
-VITE_FIREBASE_API_KEY=your-firebase-api-key
-VITE_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
-VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
-VITE_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
-VITE_FIREBASE_APP_ID=your-firebase-app-id
-VITE_FIREBASE_MEASUREMENT_ID=your-firebase-measurement-id
-\`\`\`
+```
 
 ## 📁 Project Structure
 
-\`\`\`
+```
 supabase-upload/
 ├── src/
 │   ├── components/
@@ -60,14 +52,13 @@ supabase-upload/
 │   │   ├── LoginPage.tsx     # Login page component
 │   │   └── UploadPage.tsx    # File upload component
 │   ├── config/
-│   │   ├── firebase.ts       # Firebase configuration
 │   │   └── supabase.ts       # Supabase configuration
 │   ├── App.tsx               # Main application component
 │   └── main.tsx              # Entry point
 ├── index.html                # HTML template
 ├── package.json              # Project dependencies
 └── README.md                 # Project documentation
-\`\`\`
+```
 
 ## 💻 Usage
 
@@ -85,37 +76,24 @@ supabase-upload/
 
 The following environment variables are required:
 
-\`\`\`env
-# Supabase
+```env
 VITE_SUPABASE_URL=your-supabase-project-url
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
-
-# Firebase
-VITE_FIREBASE_API_KEY=your-firebase-api-key
-VITE_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
-VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
-VITE_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
-VITE_FIREBASE_APP_ID=your-firebase-app-id
-VITE_FIREBASE_MEASUREMENT_ID=your-firebase-measurement-id
-\`\`\`
+```
 
 Make sure to add these variables to your `.env` file in the root directory of your project.
 
 ## 🛡️ Security Considerations
 
-- Google Authentication is used for user login
-- The storage bucket is configured with public access
+- Authentication is handled through Supabase Auth
+- The storage bucket is configured with appropriate access rules
 - Files are given unique names using timestamps
-- Supabase handles authentication and file storage
 - File types are restricted to images and PDFs
-- User sessions are managed securely through Firebase Authentication
-
+- User sessions are managed securely through Supabase
 
 ## 🙏 Acknowledgments
 
-- [Supabase](https://supabase.com) for the storage solution
-- [Firebase](https://firebase.google.com) for authentication
+- [Supabase](https://supabase.com) for authentication and storage solutions
 - [React](https://reactjs.org) for the frontend framework
 - [Vite](https://vitejs.dev) for the build tool
 
