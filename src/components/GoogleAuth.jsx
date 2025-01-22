@@ -8,7 +8,10 @@ const GoogleAuth = () => {
       provider.setCustomParameters({
         prompt: "select_account",
       });
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+      console.log("User's idToken:", idToken);
     } catch (error) {
       console.error("Login error:", error);
     }
